@@ -5,15 +5,29 @@ using UnityEngine.EventSystems;
 
 public class CameraMove : MonoBehaviour
 {
+    public SpriteRenderer mapBounds;
+
     private float Speed = 0.5f;
     private Vector2 nowPos, prePos;
     private Vector3 movePos;
-  //  private bool isDragging = false;
-    
+
+    [SerializeField] private SpriteRenderer[] maps;
     [SerializeField] private Camera camera;
     [SerializeField] private Vector2 minCameraPos;
     [SerializeField] private Vector2 maxCameraPos;
 
+
+    private void Start()
+    {
+        Bounds bounds = mapBounds.bounds;
+
+        float vertExt = Camera.main.orthographicSize;
+        float horzExt = vertExt * Screen.width / Screen.height;
+
+        minCameraPos = new Vector2(bounds.min.x+horzExt,bounds.min.y+vertExt);
+        maxCameraPos = new Vector2(bounds.max.x-horzExt,bounds.max.y-vertExt);
+
+    }
 
     //터치한 곳의 tag 가 land 인지 확인하는 조건 추가되어야함
     private void Update()
@@ -34,7 +48,6 @@ public class CameraMove : MonoBehaviour
                 }
                 else
                 {
-                   // isDragging = false;
                     prePos = touch.position - touch.deltaPosition;
                 }
             }
