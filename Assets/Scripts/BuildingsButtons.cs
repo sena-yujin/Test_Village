@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class BuildingsButtons : MonoBehaviour
 {
-    public static string NameofBuilding { get; private set; }
-    
-    private void Start()
+
+    public void SetName()
     {
         string btnName = gameObject.name;
-        NameofBuilding = btnName.Replace("_BTN","");
-
+        BuildingObject.NameofBuilding = btnName.Replace("_BTN", "");
     }
 
 
