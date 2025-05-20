@@ -10,12 +10,14 @@ public class CameraMove : MonoBehaviour
     private float Speed = 0.5f;
     private Vector2 nowPos, prePos;
     private Vector3 movePos;
-
+    private Vector3[] spriteCenters;
+    private int currentIndex = 0;
+    private float edgeBuffer = 0.5f;
+    
     [SerializeField] private SpriteRenderer[] maps;
     [SerializeField] private Camera camera;
     [SerializeField] private Vector2 minCameraPos;
     [SerializeField] private Vector2 maxCameraPos;
-
 
     private void Start()
     {
@@ -26,6 +28,14 @@ public class CameraMove : MonoBehaviour
 
         minCameraPos = new Vector2(bounds.min.x+horzExt,bounds.min.y+vertExt);
         maxCameraPos = new Vector2(bounds.max.x-horzExt,bounds.max.y-vertExt);
+
+        spriteCenters = new Vector3[maps.Length];
+        for(int i = 0; i < maps.Length;i++)
+        {
+            spriteCenters[i] = maps[i].bounds.center;
+        }
+
+        currentIndex = GetClosetSpriteIndex(camera.transform.position);
 
     }
 
@@ -81,7 +91,7 @@ public class CameraMove : MonoBehaviour
             float prevTouchDeltaMag = (touchZeroPrevPos - touchOnePrevPos).magnitude;
             float touchDeltaMag = (touchZero.position - touchOne.position).magnitude;
 
-            //distance gap if it is '-', then it is 'zoom in' 
+            //distance gap if it is '- ; minus', then it is 'zoom in' 
             float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
 
             if (camera.orthographic)
@@ -89,13 +99,61 @@ public class CameraMove : MonoBehaviour
                 camera.orthographicSize += deltaMagnitudeDiff * Speed;
                 camera.orthographicSize = Mathf.Max(camera.orthographicSize, 0.1f);
             }
-
         }
-
 
     }
 
+    //region pass
+    private void LateUpdate()
+    {
+        Vector3 camPos = camera.transform.position;
+        float camHalfWidth = camera.orthographicSize * camera.aspect;
+        float camLeft = camPos.x - camHalfWidth;
+        float camRight = camPos.x + camHalfWidth;
 
+        Bounds currentBounds = maps[currentIndex].bounds;
 
+        if(camRight>currentBounds.max.x+edgeBuffer && currentIndex<spriteCenters.Length-1)
+        {
+            currentIndex++;
+            MoveCameraToIndex(currentIndex);
+        }
+        else if(camLeft<currentBounds.min.x-edgeBuffer&&currentIndex>0)
+        {
+            currentIndex--;
+            MoveCameraToIndex(currentIndex);
+
+        }
+
+    }
+
+    void MoveCameraToIndex(int index)
+    {
+        Vector3 target = spriteCenters[index];
+        target.z = camera.transform.position.z;
+        camera.transform.position = target;
+
+    }
+
+    int GetClosetSpriteIndex(Vector3 camPos)
+    {
+        float mindis = float.MaxValue;
+        int index=0;
+
+        for (int i = 0; i < spriteCenters.Length; i++)
+        {
+            float dis = Vector3.Distance(camPos, spriteCenters[i]);
+
+            if (dis<mindis)
+            {
+                mindis = dis;
+                index = i;
+
+            }
+        }
+
+        return index;
+
+    }
 
 }
