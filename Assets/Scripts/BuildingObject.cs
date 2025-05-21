@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -21,13 +22,8 @@ public class BuildingObject: MonoBehaviour, IPointerDownHandler
     public GameObject Building;
     public GameObject SyrupBTN;
     public GameObject ToppingBTN;
-    public GameObject S_Content;
-    public GameObject T_Content;
-
-    private List<GameObject> S_Content_C;
-    private List<GameObject> T_Content_C;
-
-
+    public GameObject Content_S;
+    public GameObject Content_T;
 
     public static string NameofBuilding;
 
@@ -35,14 +31,21 @@ public class BuildingObject: MonoBehaviour, IPointerDownHandler
 
     private void Start()
     {
-        //일단은 자녀를 list 에 담고 onclick 에 연결하면 될듯함 
-        foreach (var item in NameofBuilding)
+        //'(true)' means it include deactive objects too
+        Button[] sButtons = Content_S.GetComponentsInChildren<Button>(true);
+        Button[] tButtons = Content_T.GetComponentsInChildren<Button>(true);
+
+        foreach(var item in sButtons.Concat(tButtons))
         {
-            
+            if (!(item.gameObject.name == "Button_X"))
+            {
+
+                item.onClick.AddListener(() => SetType());
+            }
         }
 
-
     }
+
 
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -74,11 +77,12 @@ public class BuildingObject: MonoBehaviour, IPointerDownHandler
         if(NameofBuilding=="Syrup")
         {
             SyrupBTN.GetComponent<Image>().color = button.GetComponent<Image>().color;
+            Content_S.GetComponentInParent<ScrollRect>().gameObject.SetActive(false);
         }
         else if (NameofBuilding=="Topping")
         {
             ToppingBTN.GetComponent<Image>().color = button.GetComponent<Image>().color;
-
+            Content_T.GetComponentInParent<ScrollRect>().gameObject.SetActive(false);
         }
 
     }

@@ -733,7 +733,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.9202, y: -1.21}
+  m_AnchoredPosition: {x: 0, y: -1.21}
   m_SizeDelta: {x: 48.4035, y: 11.4485}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &365209832
@@ -1718,8 +1718,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.5, y: -3}
-  m_SizeDelta: {x: 55, y: 15}
+  m_AnchoredPosition: {x: 0, y: -3}
+  m_SizeDelta: {x: 50, y: 15}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &663472509
 MonoBehaviour:
@@ -3189,8 +3189,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.5, y: -3}
-  m_SizeDelta: {x: 55, y: 15}
+  m_AnchoredPosition: {x: 0, y: -3}
+  m_SizeDelta: {x: 50, y: 15}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1178003884
 MonoBehaviour:
@@ -3680,8 +3680,8 @@ MonoBehaviour:
   Building: {fileID: 151813349}
   SyrupBTN: {fileID: 967807948}
   ToppingBTN: {fileID: 2022243406}
-  S_Content: {fileID: 575319779}
-  T_Content: {fileID: 1901473464}
+  Content_S: {fileID: 575319779}
+  Content_T: {fileID: 1901473464}
 --- !u!1 &1309154196
 GameObject:
   m_ObjectHideFlags: 0
